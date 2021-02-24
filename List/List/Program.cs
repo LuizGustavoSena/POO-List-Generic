@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,39 +11,139 @@ namespace List
     {
         static void Main(string[] args)
         {
-            List<string> lista = new List<string>();
-            string nome;
+            List<Pessoa> contatos = new List<Pessoa>();
+            Pessoa pessoa;
+            byte op;
+            string remover, buscar;
 
-            Console.WriteLine("Capacidade: " + lista.Capacity);
-
+            returnFile("contatos.txt", contatos);
             do
             {
-                Console.Write("Digite um nome para inserir na lista: ");
-                nome = Console.ReadLine();
-                lista.Add(nome);
-            } while (nome !="");
+                op = menu();
+                Console.Clear();
 
-            Console.WriteLine("Quantidade: " + lista.Count);
+                switch (op)
+                {
+                    case 1: // INSERIR CONTATO
 
-            lista.ForEach(i => Console.WriteLine(i)); // IMPRESSÃO LISTA
+                        pessoa = lerPessoa();
+                        contatos.Add(pessoa);
+                        contatos = contatos.OrderBy(x => x.Nome).ToList();
+                        addFile(contatos, "contatos.txt");
 
-            Console.WriteLine("Ordenar");
-            lista.Sort(); // ORDENAR LISTA
-            lista.ForEach(i => Console.WriteLine(i)); // IMPRESSÃO LISTA.
+                        break;
+                    case 2: // IMPRIMIR CONTATOS
 
+                        contatos.ForEach(i => Console.WriteLine(i.ToString()));
 
-            lista = lista.OrderByDescending(lp => nome).ToList();
+                        break;
+                    case 3: //DELETAR CONTATOS
 
+                        Console.Write("Qual contato deseja remover: ");
+                        remover = Console.ReadLine();
+                        pessoa = contatos.Find(x => x.Nome.Equals(remover));
+                        contatos.Remove(pessoa);
 
-            lista[3] = "JOHN JOHN";
-
-            lista.Insert(1, "Tiririca"); // POSIÇÃO , NOME
-
-            Console.WriteLine("Lista modificada");
-            lista.ForEach(i => Console.WriteLine(i)); // IMPRESSÃO LISTA
-            Console.WriteLine("Capacidade: " + lista.Capacity);
+                        break;
+                    case 4: // BUSCAR CONTATO
+                        Console.Write("Qual contato deseja encontrar: ");
+                        buscar = Console.ReadLine();
+                        pessoa = contatos.Find(x => x.Nome.Equals(buscar));
+                        Console.WriteLine(pessoa.ToString());
+                        break;
+                    case 5: // QUANTIDADE CONTATOS
+                        Console.Write("Quantidade de contatos: " + contatos.Count);
+                        break;
+                    case 6: // IMPRESSAO BREAK
+                        break;
+                }
+            } while (op != 0);
 
             Console.ReadKey();
+
+        }
+
+        public static void addFile(List<Pessoa> contatos, string text)
+        {
+            using (StreamWriter file = new StreamWriter(text))
+            {
+                for (int i = 0; i < contatos.Count; i++)
+                {
+                    file.Write(contatos[i].Nome + ";");
+                    foreach (Telefone t in contatos[i].telefone)
+                        file.Write(t.Consultar());
+                    file.WriteLine();
+                }
+            }
+        }
+
+        public static void returnFile(string text, List<Pessoa> lista)
+        {
+            using (StreamReader file = new StreamReader(text, Encoding.UTF8))
+            {
+                
+            }
+        }
+        static byte menu()
+        {
+            try
+            {
+                Console.WriteLine("------------------------------\n" +
+                                "1 - Inserir novo Contato\n" +
+                                "2 - Imprimir Contatos\n" +
+                                "3 - Deletar Contato\n" +
+                                "4 - Buscar Contato\n" +
+                                "5 = Quantidade de Contatos\n" +
+                                "0 = Sair\n" +
+                                "------------------------------");
+                return byte.Parse(Console.ReadLine());
+            }
+            catch (Exception)
+            {
+                return menu();
+            }
+        }
+
+        static Pessoa lerPessoa()
+        {
+            try
+            {
+                string nome, tipo;
+                int ddd, numero;
+                List<Telefone> telefones = new List<Telefone>();
+
+                do
+                {
+                    Console.Write("Informe o nome do contato:");
+                    nome = Console.ReadLine();
+                } while (nome == "");
+
+                do
+                {
+                    Console.Write("Informe o DDD: ");
+                    ddd = int.Parse(Console.ReadLine());
+
+                    if (ddd != 0)
+                    {
+                        Console.Write("Informe o Número: ");
+                        numero = int.Parse(Console.ReadLine());
+
+                        Console.Write("Informe o Tipo: ");
+                        tipo = Console.ReadLine();
+                        telefones.Add(new Telefone { DDD = ddd, Numero = numero, Tipo = tipo });
+                    }
+                } while (ddd != 0);
+
+                return new Pessoa
+                {
+                    Nome = nome,
+                    telefone = telefones.ToArray(),
+                };
+            }
+            catch (Exception)
+            {
+                return lerPessoa();
+            }
 
         }
     }
