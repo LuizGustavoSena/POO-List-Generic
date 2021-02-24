@@ -28,7 +28,11 @@ namespace List
 
             Console.WriteLine("Ordenar");
             lista.Sort(); // ORDENAR LISTA
-            lista.ForEach(i => Console.WriteLine(i)); // IMPRESSÃO LISTA
+            lista.ForEach(i => Console.WriteLine(i)); // IMPRESSÃO LISTA.
+
+
+            lista = lista.OrderByDescending(lp => nome).ToList();
+
 
             lista[3] = "JOHN JOHN";
 
