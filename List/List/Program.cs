@@ -81,7 +81,12 @@ namespace List
         {
             using (StreamReader file = new StreamReader(text, Encoding.UTF8))
             {
-                
+                string longtext = file.ReadToEnd();
+                string[] lines = longtext.Split('\n');
+                //string[] objetos = lines.Split(';');
+
+                /*foreach (string l in lines)
+                    Console.WriteLine(l + " Fim separação ");*/
             }
         }
         static byte menu()
