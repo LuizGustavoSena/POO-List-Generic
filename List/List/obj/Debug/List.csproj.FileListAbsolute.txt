@@ -1,0 +1,7 @@
+C:\Users\Luiz Sena\source\repos\LuizGustavoSena\POO-List-Generic\List\List\obj\Debug\List.csprojAssemblyReference.cache
+C:\Users\Luiz Sena\source\repos\LuizGustavoSena\POO-List-Generic\List\List\obj\Debug\List.csproj.CoreCompileInputs.cache
+C:\Users\Luiz Sena\source\repos\LuizGustavoSena\POO-List-Generic\List\List\bin\Debug\List.exe.config
+C:\Users\Luiz Sena\source\repos\LuizGustavoSena\POO-List-Generic\List\List\bin\Debug\List.exe
+C:\Users\Luiz Sena\source\repos\LuizGustavoSena\POO-List-Generic\List\List\bin\Debug\List.pdb
+C:\Users\Luiz Sena\source\repos\LuizGustavoSena\POO-List-Generic\List\List\obj\Debug\List.exe
+C:\Users\Luiz Sena\source\repos\LuizGustavoSena\POO-List-Generic\List\List\obj\Debug\List.pdb
