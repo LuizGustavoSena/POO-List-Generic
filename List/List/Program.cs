@@ -11,6 +11,7 @@ namespace List
     {
         static void Main(string[] args)
         {
+            // VARIAVEIS
             List<Pessoa> contatos = new List<Pessoa>();
             Pessoa pessoa;
             byte op;
@@ -26,31 +27,31 @@ namespace List
                 {
                     case 1: // INSERIR CONTATO
 
-                        pessoa = lerPessoa();
-                        contatos.Add(pessoa);
-                        contatos = contatos.OrderBy(x => x.Nome).ToList();
-                        addFile(contatos, "contatos.txt");
+                        pessoa = lerPessoa(); // LE PESSOA E TELEFONES
+                        contatos.Add(pessoa); // ADICIONA PESSOA A LISTA
+                        contatos = contatos.OrderBy(x => x.Nome).ToList(); // ORDENA
+                        addFile(contatos, "contatos.txt"); // ADICIONA LISTA NOS ARQUIVOS
 
                         break;
                     case 2: // IMPRIMIR CONTATOS
 
-                        contatos.ForEach(i => Console.WriteLine(i.ToString()));
+                        contatos.ForEach(i => Console.WriteLine(i.ToString())); // IMPRIME LISTA
 
                         break;
                     case 3: //DELETAR CONTATOS
 
                         Console.Write("Qual contato deseja remover: ");
                         remover = Console.ReadLine();
-                        pessoa = contatos.Find(x => x.Nome.Equals(remover));
-                        contatos.Remove(pessoa);
+                        pessoa = contatos.Find(x => x.Nome.Equals(remover)); // BUSCA PESSOA DA LISTA
+                        contatos.Remove(pessoa); // REMOVE PESSOA ENCONTRADA
                         addFile(contatos, "contatos.txt");
 
                         break;
                     case 4: // BUSCAR CONTATO
                         Console.Write("Qual contato deseja encontrar: ");
                         buscar = Console.ReadLine();
-                        pessoa = contatos.Find(x => x.Nome.Equals(buscar));
-                        Console.WriteLine(pessoa.ToString());
+                        pessoa = contatos.Find(x => x.Nome.Equals(buscar)); // BUSCA PESSOA DA LISTA
+                        Console.WriteLine(pessoa.ToString()); // IMPRIME PESSOA ENCONTRADA
                         break;
                     case 5: // QUANTIDADE CONTATOS
                         Console.Write("Quantidade de contatos: " + contatos.Count);
@@ -64,11 +65,12 @@ namespace List
 
         }
 
-        public static void addFile(List<Pessoa> contatos, string text)
+        public static void addFile(List<Pessoa> contatos, string text) // FUNÇÃO ADICIONA LISTA NO ARQUIVO
         {
+            // ADICIOINA ARQUIVO NO DIRETORIO INDICADO
             using (StreamWriter file = new StreamWriter(@"C:\Users\LuizSena\source\repos\LuizGustavoSena\POO-List-Generic\List\" + text))
             {
-                for (int i = 0; i < contatos.Count; i++)
+                for (int i = 0; i < contatos.Count; i++) // LAÇO INCREMENTA A LISTA NO ARQUIVO
                 {
                     file.Write(contatos[i].Nome + ";" + contatos[i].telefone.Length + ",");
                     foreach (Telefone t in contatos[i].telefone)
@@ -78,34 +80,41 @@ namespace List
             }
         }
 
-        public static void returnFile(string text, List<Pessoa> lista)
+        public static void returnFile(string text, List<Pessoa> lista) //FUNÇÃO RETORNA ARQUIVO JA CRIADO
         {
-            try
+            try // CASO ARQUIVO NÃO EXISTIR CONTINUA RODANDO NORMALMENTE NO MAIN
             {
+                // PEGA ARQUIVO DO DIRETORIO INDICADO
                 using (StreamReader file = new StreamReader(@"C:\Users\LuizSena\source\repos\LuizGustavoSena\POO-List-Generic\List\" + text, Encoding.UTF8))
                 {
+                    // VARIAVEIS
                     string line;
                     string[] campos;
                     string[] tels;
                     List<Telefone> telefones;
                     Pessoa p;
-                    while (!file.EndOfStream)
+
+                    while (!file.EndOfStream) // ENQUANTO ARQUIVO EXISTIR
                     {
+                        // INICIA AS VARIAVEIS
                         line = file.ReadLine();
-                        campos = line.Split(';');
-                        tels = campos[1].Split(',');
+                        campos = line.Split(';'); // DIVIDE A LINHA EM CAMPO (NOME / NUMEROS)
+                        tels = campos[1].Split(','); // DIVIDE O CAMPO NUMEROS (QUANTIDADE / TIPO / DDD / NUMERO)
                         telefones = new List<Telefone>();
                         
+                        // LAÇO PARA ATRIBUIR NUMEROS DE TELEFONE AO MESMO CONTATO
                         for (int i = 1, y = 0; y < int.Parse(tels[0]); i += 3, y++)
                         {
                             telefones.Add(new Telefone() { Tipo = tels[i], DDD = int.Parse(tels[i + 1]), Numero = int.Parse(tels[i + 2]) });
                         }
+
+                        // ADICIONA OS NÚMEROS A PESSOA
                         p = new Pessoa()
                         {
                             Nome = campos[0],
                             telefone = telefones.ToArray(),
                         };
-                        lista.Add(p);
+                        lista.Add(p); // ADICIONA PESSOA A LISTA DE CONTATOS
                     }
                 }
             }
@@ -118,7 +127,7 @@ namespace List
         static byte menu()
         {
             try
-            {
+            {          // MENU
                 Console.WriteLine("------------------------------\n" +
                                 "1 - Inserir novo Contato\n" +
                                 "2 - Imprimir Contatos\n" +
@@ -139,18 +148,20 @@ namespace List
         {
             try
             {
+                // VARIAVEIS
                 string nome, tipo;
                 int ddd, numero;
                 List<Telefone> telefones = new List<Telefone>();
 
                 do
-                {
+                { // LAÇO PARA NÃO DEIXAR CAMPO VAZIO
                     Console.Write("Informe o nome do contato:");
                     nome = Console.ReadLine();
                 } while (nome == "");
 
                 do
-                {
+                { // LAÇO PARA INFORMAR NUMEROS
+                    // PARADA INFORMAR ZERO AO DDD
                     Console.Write("Informe o DDD: ");
                     ddd = int.Parse(Console.ReadLine());
 
@@ -165,7 +176,7 @@ namespace List
                     }
                 } while (ddd != 0);
 
-                return new Pessoa
+                return new Pessoa // RETURNA PESSOA COM SEUS TELEFONES
                 {
                     Nome = nome,
                     telefone = telefones.ToArray(),
