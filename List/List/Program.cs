@@ -43,6 +43,7 @@ namespace List
                         remover = Console.ReadLine();
                         pessoa = contatos.Find(x => x.Nome.Equals(remover));
                         contatos.Remove(pessoa);
+                        addFile(contatos, "contatos.txt");
 
                         break;
                     case 4: // BUSCAR CONTATO
@@ -65,29 +66,54 @@ namespace List
 
         public static void addFile(List<Pessoa> contatos, string text)
         {
-            using (StreamWriter file = new StreamWriter(text))
+            using (StreamWriter file = new StreamWriter(@"C:\Users\LuizSena\source\repos\LuizGustavoSena\POO-List-Generic\List\" + text))
             {
                 for (int i = 0; i < contatos.Count; i++)
                 {
-                    file.Write(contatos[i].Nome + ";");
+                    file.Write(contatos[i].Nome + ";" + contatos[i].telefone.Length + ",");
                     foreach (Telefone t in contatos[i].telefone)
                         file.Write(t.Consultar());
-                    file.WriteLine();
+                    file.WriteLine(";");
                 }
             }
         }
 
         public static void returnFile(string text, List<Pessoa> lista)
         {
-            using (StreamReader file = new StreamReader(text, Encoding.UTF8))
+            try
             {
-                string longtext = file.ReadToEnd();
-                string[] lines = longtext.Split('\n');
-                //string[] objetos = lines.Split(';');
-
-                /*foreach (string l in lines)
-                    Console.WriteLine(l + " Fim separação ");*/
+                using (StreamReader file = new StreamReader(@"C:\Users\LuizSena\source\repos\LuizGustavoSena\POO-List-Generic\List\" + text, Encoding.UTF8))
+                {
+                    string line;
+                    string[] campos;
+                    string[] tels;
+                    List<Telefone> telefones;
+                    Pessoa p;
+                    while (!file.EndOfStream)
+                    {
+                        line = file.ReadLine();
+                        campos = line.Split(';');
+                        tels = campos[1].Split(',');
+                        telefones = new List<Telefone>();
+                        
+                        for (int i = 1, y = 0; y < int.Parse(tels[0]); i += 3, y++)
+                        {
+                            telefones.Add(new Telefone() { Tipo = tels[i], DDD = int.Parse(tels[i + 1]), Numero = int.Parse(tels[i + 2]) });
+                        }
+                        p = new Pessoa()
+                        {
+                            Nome = campos[0],
+                            telefone = telefones.ToArray(),
+                        };
+                        lista.Add(p);
+                    }
+                }
             }
+            catch (Exception)
+            {
+
+            }
+            
         }
         static byte menu()
         {

@@ -20,6 +20,5 @@ namespace List
                 fones += f.ToString();
             return ">>>Contato " + Nome + "<<<" + "\n" + fones;
         }
-        
     }
 }

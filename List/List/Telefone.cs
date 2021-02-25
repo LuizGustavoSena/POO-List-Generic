@@ -8,12 +8,12 @@
 
         public override string ToString()
         {
-            return Tipo + " (" + DDD + ") " + Numero + ";";
+            return Tipo + " (" + DDD + ") " + Numero + "\n";
         }
 
         public string Consultar()
         {
-            return Tipo + "," + DDD + "," + Numero + ";";
+            return Tipo + "," + DDD + "," + Numero + ",";
         }
     }
 }
