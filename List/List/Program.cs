@@ -68,7 +68,7 @@ namespace List
         public static void addFile(List<Pessoa> contatos, string text) // FUNÇÃO ADICIONA LISTA NO ARQUIVO
         {
             // ADICIOINA ARQUIVO NO DIRETORIO INDICADO
-            using (StreamWriter file = new StreamWriter(@"C:\Users\LuizSena\source\repos\LuizGustavoSena\POO-List-Generic\List\" + text))
+            using (StreamWriter file = new StreamWriter(@"C:\Users\Luiz Sena\source\repos\LuizGustavoSena\POO-List-Generic\List\" + text))
             {
                 for (int i = 0; i < contatos.Count; i++) // LAÇO INCREMENTA A LISTA NO ARQUIVO
                 {
@@ -82,10 +82,11 @@ namespace List
 
         public static void returnFile(string text, List<Pessoa> lista) //FUNÇÃO RETORNA ARQUIVO JA CRIADO
         {
-            try // CASO ARQUIVO NÃO EXISTIR CONTINUA RODANDO NORMALMENTE NO MAIN
+            // SE ARQUIVO EXISTIR 
+            if (File.Exists(@"C:\Users\Luiz Sena\source\repos\LuizGustavoSena\POO-List-Generic\List\" + text)) 
             {
                 // PEGA ARQUIVO DO DIRETORIO INDICADO
-                using (StreamReader file = new StreamReader(@"C:\Users\LuizSena\source\repos\LuizGustavoSena\POO-List-Generic\List\" + text, Encoding.UTF8))
+                using (StreamReader file = new StreamReader(@"C:\Users\Luiz Sena\source\repos\LuizGustavoSena\POO-List-Generic\List\" + text, Encoding.UTF8))
                 {
                     // VARIAVEIS
                     string line;
@@ -118,11 +119,6 @@ namespace List
                     }
                 }
             }
-            catch (Exception)
-            {
-
-            }
-            
         }
         static byte menu()
         {

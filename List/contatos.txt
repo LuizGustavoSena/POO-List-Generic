@@ -1,4 +1,4 @@
 Abelha;1,Casa,41,123456789,;
-Fabio;1,Trabalho,41,123456789,;
+Amanda;3,Celular,41,1234567896,Casa,41,123456789,Trabalho,41,12345678,;
 Luiz;1,Celular,16,991243647,;
 Vitor;1,Casa,16,333333333,;
